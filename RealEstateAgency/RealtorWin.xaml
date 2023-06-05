@@ -1,0 +1,71 @@
+﻿<Window x:Class="RealEstateAgency.RealtorWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealEstateAgency"
+        mc:Ignorable="d"
+        Title="ИСРК. Риелторы" Height="500" Width="550" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/icon/icon.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Поиск"/>
+                <TextBox x:Name="SearchTb" Width="220" VerticalContentAlignment="Center" TextChanged="SearchTb_TextChanged" PreviewTextInput="OnlyText_PreviewTextInput"/>
+            </StackPanel>
+            <DataGrid x:Name="RealtorsDg" IsReadOnly="True" AutoGenerateColumns="false" CanUserAddRows="False" Height="400" CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Фамилия" Width="75" Binding="{Binding LastName}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Имя" Width="75" Binding="{Binding FirstName}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Отчество" Width="75" Binding="{Binding MiddleName}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Телефон" Width="auto" Binding="{Binding Phone}"/>
+                    <DataGridTextColumn Header="Доля" Width="auto" Binding="{Binding Share}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="5">
+            <Label Content="Фамилия"/>
+            <TextBox x:Name="LastNameTb" Height="25" VerticalContentAlignment="Center" PreviewTextInput="OnlyText_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown" MaxLength="50"/>
+            <Label Content="Имя"/>
+            <TextBox x:Name="FirstNameTb" Height="25" VerticalContentAlignment="Center" PreviewTextInput="OnlyText_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown" MaxLength="50"/>
+            <Label Content="Отчество"/>
+            <TextBox x:Name="MiddleNameTb" Height="25" VerticalContentAlignment="Center" PreviewTextInput="OnlyText_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown" MaxLength="50"/>
+            <Label Content="Телефон"/>
+            <TextBox x:Name="PhoneTb" Height="25" VerticalContentAlignment="Center" MaxLength="11" PreviewTextInput="OnlyNumber_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown"/>
+            <Label Content="Доля"/>
+            <StackPanel Orientation="Horizontal">
+                <Slider x:Name="ShareSl" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Margin="0, 0, 10, 0" Minimum="0" Maximum="100" TickFrequency="1" 
+                        IsSnapToTickEnabled="True" HorizontalAlignment="Left" Width="100"/>
+                <TextBox x:Name="ShareTb" Text="{Binding ElementName=ShareSl, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="2" 
+                         Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" 
+                         PreviewTextInput="OnlyNumber_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown"/>
+            </StackPanel>
+            <Button x:Name="AddBtn" Content="Добавить" Margin="0, 10" Click="AddBtn_Click"/>
+            <Button x:Name="EditBtn" Content="Изменить" Click="EditBtn_Click"/>
+            <Button x:Name="SaveBtn" Content="Сохранить" Margin="0, 10" Click="SaveBtn_Click"/>
+            <Button x:Name="DeleteBtn" Content="Удалить" Click="DeleteBtn_Click"/>
+            <Button x:Name="ReturnBtn" Content="Вернуться" Margin="0, 35" Click="ReturnBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

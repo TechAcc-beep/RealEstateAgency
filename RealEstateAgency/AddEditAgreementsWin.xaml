@@ -1,0 +1,55 @@
+﻿<Window x:Class="RealEstateAgency.AddEditAgreementsWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealEstateAgency"
+        mc:Ignorable="d"
+        Title="AddEditAgreementsWin" Height="500" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/icon/icon.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Номер договора" VerticalAlignment="Center"/>
+        <TextBox x:Name="NumberContractTb" Grid.Column="1" Height="25" Margin="5" VerticalContentAlignment="Center" PreviewKeyDown="BanSpace_PreviewKeyDown" 
+                 PreviewTextInput="OnlyNumber_PreviewTextInput" MaxLength="10"/>
+        <Label Content="Заявки" VerticalAlignment="Center" Grid.Row="1"/>
+        <ComboBox x:Name="OrdersCb" Grid.Row="1" Grid.Column="1" Height="25" Margin="5" SelectionChanged="OrdersCb_SelectionChanged"/>
+        <Label Content="Владелец недвижимости" VerticalAlignment="Center" Grid.Row="2"/>
+        <ComboBox x:Name="OwnerCb" Grid.Row="2" Grid.Column="1" Height="25" Margin="5"/>
+        <Label Content="Объект недвижимости" Grid.Row="3" VerticalAlignment="Center"/>
+        <ComboBox x:Name="ObjectCb" Grid.Row="3" Grid.Column="1" Height="25" Margin="5" SelectionChanged="ObjectCb_SelectionChanged"/>
+        <Label Content="Риелтор" Grid.Row="4" VerticalAlignment="Center"/>
+        <ComboBox x:Name="RealtorCb" Grid.Row="4" Grid.Column="1" Height="25" Margin="5" SelectionChanged="RealtorCb_SelectionChanged"/>
+        <Label Content="Покупатель" Grid.Row="5" VerticalAlignment="Center"/>
+        <ComboBox x:Name="CustomerCb" Grid.Row="5" Grid.Column="1" Height="25" Margin="5"/>
+        <Label Content="Тип договора" Grid.Row="6" VerticalAlignment="Center"/>
+        <ComboBox x:Name="TypeContractCb" Grid.Row="6" Grid.Column="1" Height="25" Margin="5"/>
+        <Label Content="Тип сделки" Grid.Row="7" VerticalAlignment="Center"/>
+        <ComboBox x:Name="TypeDealCb" Grid.Row="7" Grid.Column="1" Height="25" Margin="5"/>
+        <Label Content="Сумма сделки" Grid.Row="8" VerticalAlignment="Center"/>
+        <TextBox x:Name="PriceTb" Grid.Row="8" Grid.Column="1" Height="25" Margin="5" TextChanged="PriceTb_TextChanged" VerticalContentAlignment="Center" 
+                 PreviewKeyDown="BanSpace_PreviewKeyDown" PreviewTextInput="OnlyNumber_PreviewTextInput" MaxLength="25"/>
+        <Label Content="Комиссия агента" Grid.Row="9" VerticalAlignment="Center"/>
+        <TextBox x:Name="CommissionTb" Grid.Row="9" Grid.Column="1" Height="25" Margin="5" IsReadOnly="True" VerticalContentAlignment="Center"/>
+        <Label Content="Дата составления" Grid.Row="10" VerticalAlignment="Center"/>
+        <DatePicker x:Name="DateDp" Grid.Row="10" Grid.Column="1" Height="25" Margin="5"/>
+        <Button x:Name="SaveBtn" Content="Сохранить" Grid.Row="11" Height="25" Width="75" Click="SaveBtn_Click"/>
+        <Button x:Name="CancelBtn" Content="Отменить" Grid.Row="11" Grid.Column="1" Height="25" Width="75" Click="CancelBtn_Click"/>
+    </Grid>
+</Window>

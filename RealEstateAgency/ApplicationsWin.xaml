@@ -1,0 +1,140 @@
+﻿<Window x:Class="RealEstateAgency.ApplicationsWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealEstateAgency"
+        mc:Ignorable="d"
+        Title="ИСРК. Заявки" Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="Window_Closing" Icon="/icon/icon.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18"/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Menu Background="#F0F0F0" Grid.ColumnSpan="3">
+            <MenuItem x:Name="Realtor" Header="Риелторы" Click="Realtor_Click"/>
+            <MenuItem x:Name="Client" Header="Клиенты" Click="Client_Click"/>
+            <MenuItem x:Name="RealEstate" Header="Недвижимость" Click="RealEstate_Click"/>
+            <MenuItem x:Name="Agreements" Header="Договоры" Click="Agreements_Click"/>
+            <MenuItem Header="Выгрузка">
+                <MenuItem x:Name="ListRealtors" Header="Список риелторов" Click="ListRealtors_Click"/>
+                <MenuItem x:Name="ListClients" Header="Список клиентов" Click="ListClients_Click"/>
+                <MenuItem x:Name="ListObjects" Header="Список объектов недвижимости" Click="ListObjects_Click"/>
+                <MenuItem x:Name="ListContracts" Header="Список договоров" Click="ListContracts_Click"/>
+                <MenuItem x:Name="ListOrders" Header="Список заявок" Click="ListOrders_Click"/>
+            </MenuItem>
+            <MenuItem Header="Дополнительное">
+                <MenuItem x:Name="Profile" Header="Профиль" Click="Profile_Click"/>
+                <MenuItem x:Name="ChangePassword" Header="Изменение пароля" Click="ChangePassword_Click"/>
+                <MenuItem x:Name="UserChange" Header="Смена пользователя" Click="UserChange_Click"/>
+                <MenuItem x:Name="ReferenceInfo" Header="Справочная информация" Click="ReferenceInfo_Click"/>
+                <MenuItem x:Name="Exit" Header="Закрыть приложение" Click="Exit_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+            <Label Content="Поиск"/>
+            <ComboBox x:Name="SearchByCb" Height="25" SelectionChanged="SearchByCb_SelectionChanged">
+                <ComboBoxItem>По статусу</ComboBoxItem>
+                <ComboBoxItem>По адресу</ComboBoxItem>
+                <ComboBoxItem>По клиенту</ComboBoxItem>
+                <ComboBoxItem>По риелтору</ComboBoxItem>
+                <ComboBoxItem>По типу недвижимости</ComboBoxItem>
+                <ComboBoxItem>По типу заявки</ComboBoxItem>
+            </ComboBox>
+            <TextBox x:Name="SearchTb" Height="25" Margin="0, 10" VerticalContentAlignment="Center"/>
+            <ComboBox x:Name="SearchCb" Height="25" Margin="0, 10" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+            <Button x:Name="SearchBtn" Content="Найти" Click="SearchBtn_Click"/>
+            <Button x:Name="ResetBtn" Content="Сброс" Margin="0, 10" Click="ResetBtn_Click"/>
+            <Button x:Name="AddBtn" Content="Добавить" Margin="0, 50, 0, 10" Click="AddBtn_Click"/>
+            <Button x:Name="ChangeBtn" Content="Изменить" Click="ChangeBtn_Click"/>
+            <Button x:Name="DeleteBtn" Content="Удалить" Margin="0, 10" Click="DeleteBtn_Click"/>
+        </StackPanel>
+        <DataGrid x:Name="ApplicationsDg" IsReadOnly="True" AutoGenerateColumns="false" CanUserAddRows="False" Grid.Row="1" Margin="5" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Статус" Width="auto" Binding="{Binding StatusOrders.Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Клиент" Width="150" Binding="{Binding Clients.FullName}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Риелтор" Width="150" Binding="{Binding Agents.FullName}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Тип объекта" Width="auto" Binding="{Binding TypeRealEstateObjects.Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Адрес" Width="166" Binding="{Binding Address.Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Мин. цена" Width="auto" Binding="{Binding MinPrice}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Макс. цена" Width="auto" Binding="{Binding MaxPrice}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Тип сделки" Width="auto" Binding="{Binding TypeOrders.Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding AttributesOrders}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Атрибуты" Binding="{Binding AttributesName.Title}"/>
+                            <DataGridTextColumn Header="Значения" Binding="{Binding Value}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Background="#F0F0F0" Grid.Row="2" Grid.ColumnSpan="3">
+            <Label Content="Текущий пользователь:"/>
+            <Label x:Name="FullNameUserLbl" Margin="-5, 0"/>
+        </StackPanel>
+    </Grid>
+</Window>

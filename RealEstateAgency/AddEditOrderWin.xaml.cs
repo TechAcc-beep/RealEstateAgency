@@ -25,7 +25,6 @@ namespace RealEstateAgency
         Orders Order;
         double minArea, maxArea, minRooms, maxRooms, minFloor, maxFloor, minAmountFloors, maxAmountFloors;
         int minPrice, maxPrice;
-
         public AddEditOrderWin(Orders orders)
         {
             InitializeComponent();
@@ -209,173 +208,269 @@ namespace RealEstateAgency
             {
                 if (TypeOrderCb.SelectedIndex == 1 || TypeOrderCb.SelectedIndex == 2)
                 {
-                    if (MinPriceTb.Text == "") minPrice = 0; else minPrice = int.Parse(MinPriceTb.Text);
-                    if (MaxPriceTb.Text == "") maxPrice = 0; else maxPrice = int.Parse(MaxPriceTb.Text);
-                    if (AreaTb.Text == "")
+                    try
                     {
-                        MessageBox.Show($"Площадь объекта не заполнена!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        AreaTb.BorderBrush = Brushes.Red;
+                        if (MinPriceTb.Text == "") minPrice = 0; else minPrice = int.Parse(MinPriceTb.Text);
+                        if (MaxPriceTb.Text == "") maxPrice = 0; else maxPrice = int.Parse(MaxPriceTb.Text);
+                        if (AreaTb.Text == "")
+                        {
+                            MessageBox.Show($"Площадь объекта не заполнена!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            AreaTb.BorderBrush = Brushes.Red;
+                        }
+                        else if ((TypeCb.SelectedIndex == 0 || TypeCb.SelectedIndex == 1) && RoomsTb.Text == "")
+                        {
+                            MessageBox.Show($"Количество комнат не указано!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            RoomsTb.BorderBrush = Brushes.Red;
+                        }
+                        else if (TypeCb.SelectedIndex == 0 && FloorTb.Text == "")
+                        {
+                            MessageBox.Show($"Этаж не указан!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            FloorTb.BorderBrush = Brushes.Red;
+                        }
+                        else if (TypeCb.SelectedIndex == 1 && NumOfStoreysTb.Text == "")
+                        {
+                            MessageBox.Show($"Этажность не указана!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            NumOfStoreysTb.BorderBrush = Brushes.Red;
+                        }
+                        else
+                        {
+                            if (Order == null)
+                            {
+                                int maxIdObj = AppData.DB.RealEstateObjects.Count() + 1;
+                                int maxIdAdr = AppData.DB.Address.Count() + 1;
+                                int maxIdOrd = AppData.DB.Orders.Count() + 1;
+                                Address add = new Address
+                                {
+                                    Id = maxIdAdr,
+                                    Title = AddressTb.Text
+                                };
+                                AppData.DB.Address.Add(add);
+                                RealEstateObjects addObj = new RealEstateObjects
+                                {
+                                    Id = maxIdObj,
+                                    IdAddress = maxIdAdr,
+                                    TypeEstate = TypeCb.SelectedIndex + 1,
+                                    Owner = ClientCb.SelectedIndex + 1,
+                                    Description = ""
+                                };
+                                AppData.DB.RealEstateObjects.Add(addObj);
+                                int maxIdAtt = AppData.DB.AttributesRealEstateObjects.Count() + 1;
+                                int maxIdAtt2 = AppData.DB.AttributesOrders.Count() + 1;
+                                switch (TypeCb.SelectedIndex)
+                                {
+                                    case 0:
+                                        AttributesRealEstateObjects addApartment1 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addApartment1);
+                                        AttributesRealEstateObjects addApartment2 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt + 1,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 2,
+                                            Value = double.Parse(RoomsTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addApartment2);
+                                        AttributesRealEstateObjects addApartment3 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt + 2,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 3,
+                                            Value = double.Parse(FloorTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addApartment3);
+                                        AttributesOrders addApart1 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addApart1);
+                                        AttributesOrders addApart2 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2 + 1,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 2,
+                                            Value = double.Parse(RoomsTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addApart2);
+                                        AttributesOrders addApart3 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2 + 2,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 3,
+                                            Value = double.Parse(FloorTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addApart3);
+                                        break;
+                                    case 1:
+                                        AttributesRealEstateObjects addHouse1 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addHouse1);
+                                        AttributesRealEstateObjects addHouse2 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt + 1,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 2,
+                                            Value = double.Parse(RoomsTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addHouse2);
+                                        AttributesRealEstateObjects addHouse3 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt + 2,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 4,
+                                            Value = double.Parse(NumOfStoreysTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(addHouse3);
+                                        AttributesOrders addHome1 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addHome1);
+                                        AttributesOrders addHome2 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2 + 1,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 2,
+                                            Value = double.Parse(RoomsTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addHome2);
+                                        AttributesOrders addHome3 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2 + 2,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 4,
+                                            Value = double.Parse(NumOfStoreysTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(addHome3);
+                                        break;
+                                    case 2:
+                                        AttributesRealEstateObjects add1 = new AttributesRealEstateObjects
+                                        {
+                                            Id = maxIdAtt,
+                                            IdObject = maxIdObj,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesRealEstateObjects.Add(add1);
+                                        AttributesOrders add2 = new AttributesOrders
+                                        {
+                                            Id = maxIdAtt2,
+                                            IdOrder = maxIdOrd,
+                                            IdAttributesName = 1,
+                                            Value = double.Parse(AreaTb.Text)
+                                        };
+                                        AppData.DB.AttributesOrders.Add(add2);
+                                        break;
+                                }
+                                Orders addOrd = new Orders
+                                {
+                                    Id = maxIdOrd,
+                                    StatusOrder = 1,
+                                    Client = ClientCb.SelectedIndex + 1,
+                                    Agent = RealtorCb.SelectedIndex + 1,
+                                    TypeRealEstate = TypeCb.SelectedIndex + 1,
+                                    IdAddress = maxIdAdr,
+                                    MinPrice = minPrice,
+                                    MaxPrice = maxPrice,
+                                    TypeOrder = TypeOrderCb.SelectedIndex + 1
+                                };
+                                AppData.DB.Orders.Add(addOrd);
+                                AppData.DB.SaveChanges();
+                                MessageBox.Show("Запись добавлена");
+                                Close();
+                            }
+                            else
+                            {
+                                var editOrd = AppData.DB.Orders.Where(p => p.Id == Order.Id).FirstOrDefault();
+                                editOrd.Client = ClientCb.SelectedIndex + 1;
+                                editOrd.Agent = RealtorCb.SelectedIndex + 1;
+                                editOrd.MinPrice = minPrice;
+                                editOrd.MaxPrice = maxPrice;
+                                editOrd.TypeOrder = TypeOrderCb.SelectedIndex + 1;
+                                var editAdd = AppData.DB.Address.Where(p => p.Id == Order.IdAddress).FirstOrDefault();
+                                editAdd.Title = AddressTb.Text;
+                                var editRealEstate = AppData.DB.RealEstateObjects.Where(p => p.IdAddress == Order.IdAddress).FirstOrDefault();
+                                editRealEstate.Owner = ClientCb.SelectedIndex + 1;
+                                switch (TypeCb.SelectedIndex)
+                                {
+                                    case 0:
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress
+                                        && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
+                                        break;
+                                    case 1:
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
+                                        break;
+                                    case 2:
+                                        AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress &&
+                                        c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                        break;
+                                }
+                                AppData.DB.SaveChanges();
+                                MessageBox.Show("Изменения были внесены");
+                                Close();
+                            }
+                        }
                     }
-                    else if ((TypeCb.SelectedIndex == 0 || TypeCb.SelectedIndex == 1) && RoomsTb.Text == "")
+                    catch (Exception ex)
                     {
-                        MessageBox.Show($"Количество комнат не указано!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        RoomsTb.BorderBrush = Brushes.Red;
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    else if (TypeCb.SelectedIndex == 0 && FloorTb.Text == "")
+                }
+                else
+                {
+                    try
                     {
-                        MessageBox.Show($"Этаж не указан!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        FloorTb.BorderBrush = Brushes.Red;
-                    }
-                    else if (TypeCb.SelectedIndex == 1 && NumOfStoreysTb.Text == "")
-                    {
-                        MessageBox.Show($"Этажность не указана!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        NumOfStoreysTb.BorderBrush = Brushes.Red;
-                    }
-                    else
-                    {
+                        if (MinPriceTb.Text == "") minPrice = 0; else minPrice = int.Parse(MinPriceTb.Text);
+                        if (MaxPriceTb.Text == "") maxPrice = 0; else maxPrice = int.Parse(MaxPriceTb.Text);
+                        if (MinAreaTb.Text == "") minArea = 0; else minArea = double.Parse(MinAreaTb.Text);
+                        if (MaxAreaTb.Text == "") maxArea = 0; else maxArea = double.Parse(MaxAreaTb.Text);
+                        if (MinRoomsTb.Text == "") minRooms = 0; else minRooms = double.Parse(MinRoomsTb.Text);
+                        if (MaxRoomsTb.Text == "") maxRooms = 0; else maxRooms = double.Parse(MaxRoomsTb.Text);
+                        if (MinFloorTb.Text == "") minFloor = 0; else minFloor = double.Parse(MinFloorTb.Text);
+                        if (MaxFloorTb.Text == "") maxFloor = 0; else maxFloor = double.Parse(MaxFloorTb.Text);
+                        if (MinNumOfStoreysTb.Text == "") minAmountFloors = 0; else minAmountFloors = double.Parse(MinNumOfStoreysTb.Text);
+                        if (MaxNumOfStoreysTb.Text == "") maxAmountFloors = 0; else maxAmountFloors = double.Parse(MaxNumOfStoreysTb.Text);
                         if (Order == null)
                         {
-                            int maxIdObj = AppData.DB.RealEstateObjects.Count() + 1;
-                            int maxIdAdr = AppData.DB.Address.Count() + 1;
                             int maxIdOrd = AppData.DB.Orders.Count() + 1;
+                            int maxIdAdr = AppData.DB.Address.Count() + 1;
                             Address add = new Address
                             {
                                 Id = maxIdAdr,
                                 Title = AddressTb.Text
                             };
                             AppData.DB.Address.Add(add);
-                            RealEstateObjects addObj = new RealEstateObjects
-                            {
-                                Id = maxIdObj,
-                                IdAddress = maxIdAdr,
-                                TypeEstate = TypeCb.SelectedIndex + 1,
-                                Owner = ClientCb.SelectedIndex + 1,
-                                Description = ""
-                            };
-                            AppData.DB.RealEstateObjects.Add(addObj);
-                            int maxIdAtt = AppData.DB.AttributesRealEstateObjects.Count() + 1;
-                            int maxIdAtt2 = AppData.DB.AttributesOrders.Count() + 1;
-                            switch (TypeCb.SelectedIndex)
-                            {
-                                case 0:
-                                    AttributesRealEstateObjects addApartment1 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addApartment1);
-                                    AttributesRealEstateObjects addApartment2 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt + 1,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 2,
-                                        Value = double.Parse(RoomsTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addApartment2);
-                                    AttributesRealEstateObjects addApartment3 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt + 2,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 3,
-                                        Value = double.Parse(FloorTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addApartment3);
-                                    AttributesOrders addApart1 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addApart1);
-                                    AttributesOrders addApart2 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2 + 1,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 2,
-                                        Value = double.Parse(RoomsTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addApart2);
-                                    AttributesOrders addApart3 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2 + 2,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 3,
-                                        Value = double.Parse(FloorTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addApart3);
-                                    break;
-                                case 1:
-                                    AttributesRealEstateObjects addHouse1 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addHouse1);
-                                    AttributesRealEstateObjects addHouse2 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt + 1,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 2,
-                                        Value = double.Parse(RoomsTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addHouse2);
-                                    AttributesRealEstateObjects addHouse3 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt + 2,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 4,
-                                        Value = double.Parse(NumOfStoreysTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(addHouse3);
-                                    AttributesOrders addHome1 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addHome1);
-                                    AttributesOrders addHome2 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2 + 1,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 2,
-                                        Value = double.Parse(RoomsTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addHome2);
-                                    AttributesOrders addHome3 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2 + 2,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 4,
-                                        Value = double.Parse(NumOfStoreysTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(addHome3);
-                                    break;
-                                case 2:
-                                    AttributesRealEstateObjects add1 = new AttributesRealEstateObjects
-                                    {
-                                        Id = maxIdAtt,
-                                        IdObject = maxIdObj,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesRealEstateObjects.Add(add1);
-                                    AttributesOrders add2 = new AttributesOrders
-                                    {
-                                        Id = maxIdAtt2,
-                                        IdOrder = maxIdOrd,
-                                        IdAttributesName = 1,
-                                        Value = double.Parse(AreaTb.Text)
-                                    };
-                                    AppData.DB.AttributesOrders.Add(add2);
-                                    break;
-                            }
                             Orders addOrd = new Orders
                             {
                                 Id = maxIdOrd,
@@ -389,6 +484,128 @@ namespace RealEstateAgency
                                 TypeOrder = TypeOrderCb.SelectedIndex + 1
                             };
                             AppData.DB.Orders.Add(addOrd);
+                            int maxIdAtt = AppData.DB.AttributesOrders.Count() + 1;
+                            switch (TypeCb.SelectedIndex)
+                            {
+                                case 0:
+                                    AttributesOrders addApartment1 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 5,
+                                        Value = minArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment1);
+                                    AttributesOrders addApartment2 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 1,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 6,
+                                        Value = maxArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment2);
+                                    AttributesOrders addApartment3 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 2,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 7,
+                                        Value = minRooms
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment3);
+                                    AttributesOrders addApartment4 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 3,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 8,
+                                        Value = maxRooms
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment4);
+                                    AttributesOrders addApartment5 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 4,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 9,
+                                        Value = minFloor
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment5);
+                                    AttributesOrders addApartment6 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 5,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 10,
+                                        Value = maxFloor
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addApartment6);
+                                    break;
+                                case 1:
+                                    AttributesOrders addHouse1 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 5,
+                                        Value = minArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse1);
+                                    AttributesOrders addHouse2 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 1,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 6,
+                                        Value = maxArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse2);
+                                    AttributesOrders addHouse3 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 2,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 7,
+                                        Value = minRooms
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse3);
+                                    AttributesOrders addHouse4 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 3,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 8,
+                                        Value = maxArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse4);
+                                    AttributesOrders addHouse5 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 4,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 11,
+                                        Value = minAmountFloors
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse5);
+                                    AttributesOrders addHouse6 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 5,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 12,
+                                        Value = maxAmountFloors
+                                    };
+                                    AppData.DB.AttributesOrders.Add(addHouse6);
+                                    break;
+                                case 2:
+                                    AttributesOrders add1 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 5,
+                                        Value = minArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(add1);
+                                    AttributesOrders add2 = new AttributesOrders
+                                    {
+                                        Id = maxIdAtt + 1,
+                                        IdOrder = maxIdOrd,
+                                        IdAttributesName = 6,
+                                        Value = maxArea
+                                    };
+                                    AppData.DB.AttributesOrders.Add(add2);
+                                    break;
+                            }
                             AppData.DB.SaveChanges();
                             MessageBox.Show("Запись добавлена");
                             Close();
@@ -403,36 +620,27 @@ namespace RealEstateAgency
                             editOrd.TypeOrder = TypeOrderCb.SelectedIndex + 1;
                             var editAdd = AppData.DB.Address.Where(p => p.Id == Order.IdAddress).FirstOrDefault();
                             editAdd.Title = AddressTb.Text;
-                            var editRealEstate = AppData.DB.RealEstateObjects.Where(p => p.IdAddress == Order.IdAddress).FirstOrDefault();
-                            editRealEstate.Owner = ClientCb.SelectedIndex + 1;
                             switch (TypeCb.SelectedIndex)
                             {
                                 case 0:
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress 
-                                    && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 7).Value = minRooms;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 8).Value = maxRooms;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 9).Value = minFloor;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 10).Value = maxFloor;
                                     break;
                                 case 1:
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 7).Value = minRooms;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 8).Value = maxRooms;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 11).Value = minAmountFloors;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 12).Value = maxAmountFloors;
                                     break;
                                 case 2:
-                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                                    AppData.DB.AttributesRealEstateObjects.First(c => c.RealEstateObjects.IdAddress == Order.IdAddress && 
-                                    c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
+                                    AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
                                     break;
                             }
                             AppData.DB.SaveChanges();
@@ -440,204 +648,9 @@ namespace RealEstateAgency
                             Close();
                         }
                     }
-                }
-                else
-                {
-                    if (MinPriceTb.Text == "") minPrice = 0; else minPrice = int.Parse(MinPriceTb.Text);
-                    if (MaxPriceTb.Text == "") maxPrice = 0; else maxPrice = int.Parse(MaxPriceTb.Text);
-                    if (MinAreaTb.Text == "") minArea = 0; else minArea = double.Parse(MinAreaTb.Text);
-                    if (MaxAreaTb.Text == "") maxArea = 0; else maxArea = double.Parse(MaxAreaTb.Text);
-                    if (MinRoomsTb.Text == "") minRooms = 0; else minRooms = double.Parse(MinRoomsTb.Text);
-                    if (MaxRoomsTb.Text == "") maxRooms = 0; else maxRooms = double.Parse(MaxRoomsTb.Text);
-                    if (MinFloorTb.Text == "") minFloor = 0; else minFloor = double.Parse(MinFloorTb.Text);
-                    if (MaxFloorTb.Text == "") maxFloor = 0; else maxFloor = double.Parse(MaxFloorTb.Text);
-                    if (MinNumOfStoreysTb.Text == "") minAmountFloors = 0; else minAmountFloors = double.Parse(MinNumOfStoreysTb.Text);
-                    if (MaxNumOfStoreysTb.Text == "") maxAmountFloors = 0; else maxAmountFloors = double.Parse(MaxNumOfStoreysTb.Text);
-                    if (Order == null)
+                    catch (Exception ex)
                     {
-                        int maxIdOrd = AppData.DB.Orders.Count() + 1;
-                        int maxIdAdr = AppData.DB.Address.Count() + 1;
-                        Address add = new Address
-                        {
-                            Id = maxIdAdr,
-                            Title = AddressTb.Text
-                        };
-                        AppData.DB.Address.Add(add);
-                        Orders addOrd = new Orders
-                        {
-                            Id = maxIdOrd,
-                            StatusOrder = 1,
-                            Client = ClientCb.SelectedIndex + 1,
-                            Agent = RealtorCb.SelectedIndex + 1,
-                            TypeRealEstate = TypeCb.SelectedIndex + 1,
-                            IdAddress = maxIdAdr,
-                            MinPrice = minPrice,
-                            MaxPrice = maxPrice,
-                            TypeOrder = TypeOrderCb.SelectedIndex + 1
-                        };
-                        AppData.DB.Orders.Add(addOrd);
-                        int maxIdAtt = AppData.DB.AttributesOrders.Count() + 1;
-                        switch (TypeCb.SelectedIndex)
-                        {
-                            case 0:
-                                AttributesOrders addApartment1 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 5,
-                                    Value = minArea
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment1);
-                                AttributesOrders addApartment2 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 1,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 6,
-                                    Value = maxArea
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment2);
-                                AttributesOrders addApartment3 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 2,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 7,
-                                    Value = minRooms
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment3);
-                                AttributesOrders addApartment4 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 3,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 8,
-                                    Value = maxRooms
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment4);
-                                AttributesOrders addApartment5 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 4,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 9,
-                                    Value = minFloor
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment5);
-                                AttributesOrders addApartment6 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 5,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 10,
-                                    Value = maxFloor
-                                };
-                                AppData.DB.AttributesOrders.Add(addApartment6);
-                                break;
-                            case 1:
-                                AttributesOrders addHouse1 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 5,
-                                    Value = minArea
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse1);
-                                AttributesOrders addHouse2 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 1,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 6,
-                                    Value = maxArea
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse2);
-                                AttributesOrders addHouse3 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 2,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 7,
-                                    Value = minRooms
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse3);
-                                AttributesOrders addHouse4 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 3,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 8,
-                                    Value = maxArea
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse4);
-                                AttributesOrders addHouse5 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 4,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 11,
-                                    Value = minAmountFloors
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse5);
-                                AttributesOrders addHouse6 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 5,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 12,
-                                    Value = maxAmountFloors
-                                };
-                                AppData.DB.AttributesOrders.Add(addHouse6);
-                                break;
-                            case 2:
-                                AttributesOrders add1 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 5,
-                                    Value = minArea
-                                };
-                                AppData.DB.AttributesOrders.Add(add1);
-                                AttributesOrders add2 = new AttributesOrders
-                                {
-                                    Id = maxIdAtt + 1,
-                                    IdOrder = maxIdOrd,
-                                    IdAttributesName = 6,
-                                    Value = maxArea
-                                };
-                                AppData.DB.AttributesOrders.Add(add2);
-                                break;
-                        }
-                        AppData.DB.SaveChanges();
-                        MessageBox.Show("Запись добавлена");
-                        Close();
-                    }
-                    else
-                    {
-                        var editOrd = AppData.DB.Orders.Where(p => p.Id == Order.Id).FirstOrDefault();
-                        editOrd.Client = ClientCb.SelectedIndex + 1;
-                        editOrd.Agent = RealtorCb.SelectedIndex + 1;
-                        editOrd.MinPrice = minPrice;
-                        editOrd.MaxPrice = maxPrice;
-                        editOrd.TypeOrder = TypeOrderCb.SelectedIndex + 1;
-                        var editAdd = AppData.DB.Address.Where(p => p.Id == Order.IdAddress).FirstOrDefault();
-                        editAdd.Title = AddressTb.Text;
-                        switch (TypeCb.SelectedIndex)
-                        {
-                            case 0:
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 7).Value = minRooms;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 8).Value = maxRooms;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 9).Value = minFloor;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 10).Value = maxFloor;
-                                break;
-                            case 1:
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 7).Value = minRooms;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 8).Value = maxRooms;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 11).Value = minAmountFloors;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 12).Value = maxAmountFloors;
-                                break;
-                            case 2:
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 5).Value = minArea;
-                                AppData.DB.AttributesOrders.First(c => c.IdOrder == Order.Id && c.IdAttributesName == 6).Value = maxArea;
-                                break;
-                        }
-                        AppData.DB.SaveChanges();
-                        MessageBox.Show("Изменения были внесены");
-                        Close();
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

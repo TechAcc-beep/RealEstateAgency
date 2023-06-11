@@ -100,121 +100,130 @@ namespace RealEstateAgency
             }
             else
             {
-                if (REObjects == null)
+                try
                 {
-                    int maxIdObj = AppData.DB.RealEstateObjects.Count() + 1;
-                    int maxIdAdr = AppData.DB.Address.Count() + 1;
-                    Address add = new Address
+                    if (REObjects == null)
                     {
-                        Id = maxIdAdr,
-                        Title = AddressTb.Text
-                    };
-                    AppData.DB.Address.Add(add);
-                    RealEstateObjects addObj = new RealEstateObjects
-                    {
-                        Id = maxIdObj,
-                        IdAddress = maxIdAdr,
-                        TypeEstate = TypeCb.SelectedIndex + 1,
-                        Owner = OwnerCb.SelectedIndex + 1,
-                        Description = DescriptionTb.Text,
-                    };
-                    AppData.DB.RealEstateObjects.Add(addObj);
-                    int maxIdAtt = AppData.DB.AttributesRealEstateObjects.Count() + 1;
-                    switch (TypeCb.SelectedIndex)
-                    {
-                        case 0:
-                            AttributesRealEstateObjects addApartment1 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 1,
-                                Value = double.Parse(AreaTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addApartment1);
-                            AttributesRealEstateObjects addApartment2 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt + 1,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 2,
-                                Value = double.Parse(RoomsTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addApartment2);
-                            AttributesRealEstateObjects addApartment3 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt + 2,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 3,
-                                Value = double.Parse(FloorTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addApartment3);
-                            break;
-                        case 1:
-                            AttributesRealEstateObjects addHouse1 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 1,
-                                Value = double.Parse(AreaTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addHouse1);
-                            AttributesRealEstateObjects addHouse2 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt + 1,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 2,
-                                Value = double.Parse(RoomsTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addHouse2);
-                            AttributesRealEstateObjects addHouse3 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt + 2,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 4,
-                                Value = double.Parse(NumOfStoreysTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(addHouse3);
-                            break;
-                        case 2:
-                            AttributesRealEstateObjects add1 = new AttributesRealEstateObjects
-                            {
-                                Id = maxIdAtt,
-                                IdObject = maxIdObj,
-                                IdAttributesName = 1,
-                                Value = double.Parse(AreaTb.Text)
-                            };
-                            AppData.DB.AttributesRealEstateObjects.Add(add1);
-                            break;
+
+                        int maxIdObj = AppData.DB.RealEstateObjects.Count() + 1;
+                        int maxIdAdr = AppData.DB.Address.Count() + 1;
+                        Address add = new Address
+                        {
+                            Id = maxIdAdr,
+                            Title = AddressTb.Text
+                        };
+                        RealEstateObjects addObj = new RealEstateObjects
+                        {
+                            Id = maxIdObj,
+                            IdAddress = maxIdAdr,
+                            TypeEstate = TypeCb.SelectedIndex + 1,
+                            Owner = OwnerCb.SelectedIndex + 1,
+                            Description = DescriptionTb.Text,
+                        };
+                        int maxIdAtt = AppData.DB.AttributesRealEstateObjects.Count() + 1;
+                        switch (TypeCb.SelectedIndex)
+                        {
+                            case 0:
+                                AttributesRealEstateObjects addApartment1 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 1,
+                                    Value = double.Parse(AreaTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addApartment1);
+                                AttributesRealEstateObjects addApartment2 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt + 1,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 2,
+                                    Value = double.Parse(RoomsTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addApartment2);
+                                AttributesRealEstateObjects addApartment3 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt + 2,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 3,
+                                    Value = double.Parse(FloorTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addApartment3);
+                                break;
+                            case 1:
+                                AttributesRealEstateObjects addHouse1 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 1,
+                                    Value = double.Parse(AreaTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addHouse1);
+                                AttributesRealEstateObjects addHouse2 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt + 1,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 2,
+                                    Value = double.Parse(RoomsTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addHouse2);
+                                AttributesRealEstateObjects addHouse3 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt + 2,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 4,
+                                    Value = double.Parse(NumOfStoreysTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(addHouse3);
+                                break;
+                            case 2:
+                                AttributesRealEstateObjects add1 = new AttributesRealEstateObjects
+                                {
+                                    Id = maxIdAtt,
+                                    IdObject = maxIdObj,
+                                    IdAttributesName = 1,
+                                    Value = double.Parse(AreaTb.Text)
+                                };
+                                AppData.DB.AttributesRealEstateObjects.Add(add1);
+                                break;
+                        }
+                        AppData.DB.Address.Add(add);
+                        AppData.DB.RealEstateObjects.Add(addObj);
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Запись добавлена");
+                        Close();
                     }
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Запись добавлена");
-                    Close();
+                    else
+                    {
+                        var editObj = AppData.DB.RealEstateObjects.Where(p => p.Id == REObjects.Id).FirstOrDefault();
+                        editObj.Description = DescriptionTb.Text;
+                        editObj.Owner = OwnerCb.SelectedIndex + 1;
+                        var editAdd = AppData.DB.Address.Where(p => p.Id == REObjects.IdAddress).FirstOrDefault();
+                        editAdd.Title = AddressTb.Text;
+                        switch (TypeCb.SelectedIndex)
+                        {
+                            case 0:
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
+                                break;
+                            case 1:
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
+                                break;
+                            case 2:
+                                AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
+                                break;
+                        }
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Изменения были внесены");
+                        Close();
+
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var editObj = AppData.DB.RealEstateObjects.Where(p => p.Id == REObjects.Id).FirstOrDefault();
-                    editObj.Description = DescriptionTb.Text;
-                    editObj.Owner = OwnerCb.SelectedIndex + 1;
-                    var editAdd = AppData.DB.Address.Where(p => p.Id == REObjects.IdAddress).FirstOrDefault();
-                    editAdd.Title = AddressTb.Text;
-                    switch (TypeCb.SelectedIndex)
-                    {
-                        case 0:
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 3).Value = int.Parse(FloorTb.Text);
-                            break;
-                        case 1:
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 2).Value = int.Parse(RoomsTb.Text);
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 4).Value = int.Parse(NumOfStoreysTb.Text);
-                            break;
-                        case 2:
-                            AppData.DB.AttributesRealEstateObjects.First(c => c.IdObject == REObjects.Id && c.IdAttributesName == 1).Value = double.Parse(AreaTb.Text);
-                            break;
-                    }
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Изменения были внесены");
-                    Close();
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

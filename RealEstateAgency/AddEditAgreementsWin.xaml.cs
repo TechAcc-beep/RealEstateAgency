@@ -100,42 +100,56 @@ namespace RealEstateAgency
             {
                 if (contr == null)
                 {
-                    int maxId = AppData.DB.Contracts.Count() + 1;
-                    Contracts add = new Contracts
+                    try
                     {
-                        Id = maxId,
-                        ContractNumber = int.Parse(NumberContractTb.Text),
-                        Customer = CustomerCb.SelectedIndex + 1,
-                        Price = int.Parse(PriceTb.Text),
-                        Commission = double.Parse(CommissionTb.Text),
-                        Date = Convert.ToDateTime(DateDp.Text),
-                        Realtor = RealtorCb.SelectedIndex + 1,
-                        RealEstateObject = ObjectCb.SelectedIndex + 1,
-                        Owner = OwnerCb.SelectedIndex + 1,
-                        TypeContract = TypeContractCb.SelectedIndex + 1,
-                        TypeDeal = TypeDealCb.SelectedIndex + 1
-                    };
-                    AppData.DB.Contracts.Add(add);
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Запись добавлена");
-                    Close();
+                        int maxId = AppData.DB.Contracts.Count() + 1;
+                        Contracts add = new Contracts
+                        {
+                            Id = maxId,
+                            ContractNumber = int.Parse(NumberContractTb.Text),
+                            Customer = CustomerCb.SelectedIndex + 1,
+                            Price = int.Parse(PriceTb.Text),
+                            Commission = double.Parse(CommissionTb.Text),
+                            Date = Convert.ToDateTime(DateDp.Text),
+                            Realtor = RealtorCb.SelectedIndex + 1,
+                            RealEstateObject = ObjectCb.SelectedIndex + 1,
+                            Owner = OwnerCb.SelectedIndex + 1,
+                            TypeContract = TypeContractCb.SelectedIndex + 1,
+                            TypeDeal = TypeDealCb.SelectedIndex + 1
+                        };
+                        AppData.DB.Contracts.Add(add);
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Запись добавлена");
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
-                    var edit = AppData.DB.Contracts.Where(p => p.Id == contr.Id).FirstOrDefault();
-                    edit.ContractNumber = int.Parse(NumberContractTb.Text);
-                    edit.Customer = CustomerCb.SelectedIndex + 1;
-                    edit.Price = int.Parse(PriceTb.Text);
-                    edit.Commission = double.Parse(CommissionTb.Text);
-                    edit.Date = Convert.ToDateTime(DateDp.Text);
-                    edit.Realtor = RealtorCb.SelectedIndex + 1;
-                    edit.RealEstateObject = ObjectCb.SelectedIndex + 1;
-                    edit.Owner = OwnerCb.SelectedIndex + 1;
-                    edit.TypeContract = TypeContractCb.SelectedIndex + 1;
-                    edit.TypeDeal = TypeDealCb.SelectedIndex + 1;
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Изменения были внесены");
-                    Close();
+                    try
+                    {
+                        var edit = AppData.DB.Contracts.Where(p => p.Id == contr.Id).FirstOrDefault();
+                        edit.ContractNumber = int.Parse(NumberContractTb.Text);
+                        edit.Customer = CustomerCb.SelectedIndex + 1;
+                        edit.Price = int.Parse(PriceTb.Text);
+                        edit.Commission = double.Parse(CommissionTb.Text);
+                        edit.Date = Convert.ToDateTime(DateDp.Text);
+                        edit.Realtor = RealtorCb.SelectedIndex + 1;
+                        edit.RealEstateObject = ObjectCb.SelectedIndex + 1;
+                        edit.Owner = OwnerCb.SelectedIndex + 1;
+                        edit.TypeContract = TypeContractCb.SelectedIndex + 1;
+                        edit.TypeDeal = TypeDealCb.SelectedIndex + 1;
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Изменения были внесены");
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 var change = AppData.DB.Orders.Where(c => c.Agent == RealtorCb.SelectedIndex + 1 && (c.Clients.Id == CustomerCb.SelectedIndex + 1
                 || c.Clients.Id == OwnerCb.SelectedIndex + 1)).FirstOrDefault();
@@ -157,8 +171,15 @@ namespace RealEstateAgency
         {
             if (RealtorCb.SelectedItem != null && PriceTb.Text != "")
             {
-                int com = (int.Parse(PriceTb.Text) * AppData.DB.Agents.First(c => c.Id == RealtorCb.SelectedIndex + 1).Share) / 100;
-                CommissionTb.Text = $"{com}";
+                try
+                {
+                    int com = (int.Parse(PriceTb.Text) * AppData.DB.Agents.First(c => c.Id == RealtorCb.SelectedIndex + 1).Share) / 100;
+                    CommissionTb.Text = $"{com}";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

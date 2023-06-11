@@ -61,6 +61,10 @@
                          Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" 
                          PreviewTextInput="OnlyNumber_PreviewTextInput" PreviewKeyDown="BanSpace_PreviewKeyDown"/>
             </StackPanel>
+            <ComboBox x:Name="RolesCb" Height="25" Visibility="Collapsed" Margin="0, 10">
+                <ComboBoxItem>Администратор</ComboBoxItem>
+                <ComboBoxItem>Риелтор</ComboBoxItem>
+            </ComboBox>
             <Button x:Name="AddBtn" Content="Добавить" Margin="0, 10" Click="AddBtn_Click"/>
             <Button x:Name="EditBtn" Content="Изменить" Click="EditBtn_Click"/>
             <Button x:Name="SaveBtn" Content="Сохранить" Margin="0, 10" Click="SaveBtn_Click"/>

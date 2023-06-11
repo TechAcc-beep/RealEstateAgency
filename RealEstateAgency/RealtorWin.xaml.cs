@@ -172,12 +172,23 @@ namespace RealEstateAgency
             else
             {
                 AddBtn.IsEnabled = false;
+                if (RealtorsDg.SelectedIndex + 1 != IdUser)
+                {
+                    AddBtn.Visibility = Visibility.Collapsed;
+                    RolesCb.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    AddBtn.Visibility = Visibility.Visible;
+                    RolesCb.Visibility = Visibility.Collapsed;
+                }
                 Agents AgentDg = RealtorsDg.SelectedItem as Agents;
                 LastNameTb.Text = AgentDg.LastName;
                 FirstNameTb.Text = AgentDg.FirstName;
                 MiddleNameTb.Text = AgentDg.MiddleName;
                 PhoneTb.Text = SimpleFormatPhoneNumber(AgentDg.Phone);
                 ShareTb.Text = AgentDg.Share.ToString();
+                RolesCb.SelectedIndex = AgentDg.IdRole - 1;
                 changeTrigegr = 1;
             }
         }
@@ -226,12 +237,15 @@ namespace RealEstateAgency
                     edit.MiddleName = MiddleNameTb.Text;
                     edit.Phone = NormalFormatPhoneNumber(PhoneTb.Text);
                     edit.Share = (int)ShareSl.Value;
+                    edit.IdRole = RolesCb.SelectedIndex + 1;
                     AppData.DB.SaveChanges();
                     MessageBox.Show("Изменения были внесены");
                     RealtorsDg.ItemsSource = null;
                     GetData(null);
                     ReturnColorButton();
                     AddBtn.IsEnabled = true;
+                    AddBtn.Visibility = Visibility.Visible;
+                    RolesCb.Visibility = Visibility.Collapsed;
                     ClearAllFields();
                     changeTrigegr = 0;
                 }

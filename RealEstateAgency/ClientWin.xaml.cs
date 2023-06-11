@@ -235,6 +235,7 @@ namespace RealEstateAgency
             LastNameTb.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
             FirstNameTb.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
             MiddleNameTb.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            PhoneTb.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
         }
 
         private void ClearAllFields()

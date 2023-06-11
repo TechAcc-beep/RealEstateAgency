@@ -104,23 +104,30 @@ namespace RealEstateAgency
             }
             else
             {
-                int maxId = AppData.DB.Clients.Count() + 1;
-                Clients add = new Clients
+                try
                 {
-                    Id = maxId,
-                    FirstName = FirstNameTb.Text,
-                    MiddleName = MiddleNameTb.Text,
-                    LastName = LastNameTb.Text,
-                    Phone = NormalFormatPhoneNumber(PhoneTb.Text),
-                    Email = EmailTb.Text
-                };
-                AppData.DB.Clients.Add(add);
-                AppData.DB.SaveChanges();
-                MessageBox.Show("Запись добавлена");
-                ClientsDg.ItemsSource = null;
-                ReturnColorButton();
-                ClearAllFields();
-                GetData(null);
+                    int maxId = AppData.DB.Clients.Count() + 1;
+                    Clients add = new Clients
+                    {
+                        Id = maxId,
+                        FirstName = FirstNameTb.Text,
+                        MiddleName = MiddleNameTb.Text,
+                        LastName = LastNameTb.Text,
+                        Phone = (long)Convert.ToDouble(PhoneTb.Text),
+                        Email = EmailTb.Text
+                    };
+                    AppData.DB.Clients.Add(add);
+                    AppData.DB.SaveChanges();
+                    MessageBox.Show("Запись добавлена");
+                    ClientsDg.ItemsSource = null;
+                    ReturnColorButton();
+                    ClearAllFields();
+                    GetData(null);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -137,7 +144,7 @@ namespace RealEstateAgency
                 LastNameTb.Text = ClientDg.LastName;
                 FirstNameTb.Text = ClientDg.FirstName;
                 MiddleNameTb.Text = ClientDg.MiddleName;
-                PhoneTb.Text = SimpleFormatPhoneNumber(ClientDg.Phone);
+                PhoneTb.Text = ClientDg.Phone.ToString();
                 EmailTb.Text = ClientDg.Email;
                 changeTrigegr = 1;
             }
@@ -164,21 +171,28 @@ namespace RealEstateAgency
                 }
                 else
                 {
-                    Clients ClientDg = ClientsDg.SelectedItem as Clients;
-                    var edit = AppData.DB.Clients.Where(p => p.Id == ClientDg.Id).FirstOrDefault();
-                    edit.LastName = LastNameTb.Text;
-                    edit.FirstName = FirstNameTb.Text;
-                    edit.MiddleName = MiddleNameTb.Text;
-                    edit.Phone = NormalFormatPhoneNumber(PhoneTb.Text);
-                    edit.Email = EmailTb.Text;
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Изменения были внесены");
-                    ClientsDg.ItemsSource = null;
-                    GetData(null);
-                    ReturnColorButton();
-                    AddBtn.IsEnabled = true;
-                    ClearAllFields();
-                    changeTrigegr = 0;
+                    try
+                    {
+                        Clients ClientDg = ClientsDg.SelectedItem as Clients;
+                        var edit = AppData.DB.Clients.Where(p => p.Id == ClientDg.Id).FirstOrDefault();
+                        edit.LastName = LastNameTb.Text;
+                        edit.FirstName = FirstNameTb.Text;
+                        edit.MiddleName = MiddleNameTb.Text;
+                        edit.Phone = (long)Convert.ToDouble(PhoneTb.Text);
+                        edit.Email = EmailTb.Text;
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Изменения были внесены");
+                        ClientsDg.ItemsSource = null;
+                        GetData(null);
+                        ReturnColorButton();
+                        AddBtn.IsEnabled = true;
+                        ClearAllFields();
+                        changeTrigegr = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -227,18 +241,6 @@ namespace RealEstateAgency
             {
                 e.Handled = true;
             }
-        }
-
-        private string NormalFormatPhoneNumber(string phone)
-        {
-            if (phone != "") phone = $"+{phone[0]}({phone[1]}{phone[2]}{phone[3]}){phone[4]}{phone[5]}{phone[6]}-{phone[7]}{phone[8]}-{phone[9]}{phone[10]}";
-            return phone;
-        }
-
-        private string SimpleFormatPhoneNumber(string phone)
-        {
-            if (phone != "") phone = $"{phone[1]}{phone[3]}{phone[4]}{phone[5]}{phone[7]}{phone[8]}{phone[9]}{phone[11]}{phone[12]}{phone[14]}{phone[15]}";
-            return phone;
         }
     }
 }

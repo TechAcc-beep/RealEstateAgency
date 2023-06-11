@@ -141,25 +141,32 @@ namespace RealEstateAgency
             }
             else
             {
-                int maxId = AppData.DB.Agents.Count() + 1;
-                Agents add = new Agents
+                try
                 {
-                    Id = maxId,
-                    FirstName = FirstNameTb.Text,
-                    MiddleName = MiddleNameTb.Text,
-                    LastName = LastNameTb.Text,
-                    Phone = NormalFormatPhoneNumber(PhoneTb.Text),
-                    Share = (int)ShareSl.Value,
-                    Password = maxId.ToString(),
-                    IdRole = 2
-                };
-                AppData.DB.Agents.Add(add);
-                AppData.DB.SaveChanges();
-                MessageBox.Show("Запись добавлена");
-                RealtorsDg.ItemsSource = null;
-                ReturnColorButton();
-                ClearAllFields();
-                GetData(null);
+                    int maxId = AppData.DB.Agents.Count() + 1;
+                    Agents add = new Agents
+                    {
+                        Id = maxId,
+                        FirstName = FirstNameTb.Text,
+                        MiddleName = MiddleNameTb.Text,
+                        LastName = LastNameTb.Text,
+                        Phone = (long)Convert.ToDouble(PhoneTb.Text),
+                        Share = (int)ShareSl.Value,
+                        Password = maxId.ToString(),
+                        IdRole = 2
+                    };
+                    AppData.DB.Agents.Add(add);
+                    AppData.DB.SaveChanges();
+                    MessageBox.Show("Запись добавлена");
+                    RealtorsDg.ItemsSource = null;
+                    ReturnColorButton();
+                    ClearAllFields();
+                    GetData(null);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -186,7 +193,7 @@ namespace RealEstateAgency
                 LastNameTb.Text = AgentDg.LastName;
                 FirstNameTb.Text = AgentDg.FirstName;
                 MiddleNameTb.Text = AgentDg.MiddleName;
-                PhoneTb.Text = SimpleFormatPhoneNumber(AgentDg.Phone);
+                PhoneTb.Text = AgentDg.Phone.ToString();
                 ShareTb.Text = AgentDg.Share.ToString();
                 RolesCb.SelectedIndex = AgentDg.IdRole - 1;
                 changeTrigegr = 1;
@@ -230,24 +237,31 @@ namespace RealEstateAgency
                 }
                 else
                 {
-                    Agents AgentDg = RealtorsDg.SelectedItem as Agents;
-                    var edit = AppData.DB.Agents.Where(p => p.Id == AgentDg.Id).FirstOrDefault();
-                    edit.LastName = LastNameTb.Text;
-                    edit.FirstName = FirstNameTb.Text;
-                    edit.MiddleName = MiddleNameTb.Text;
-                    edit.Phone = NormalFormatPhoneNumber(PhoneTb.Text);
-                    edit.Share = (int)ShareSl.Value;
-                    edit.IdRole = RolesCb.SelectedIndex + 1;
-                    AppData.DB.SaveChanges();
-                    MessageBox.Show("Изменения были внесены");
-                    RealtorsDg.ItemsSource = null;
-                    GetData(null);
-                    ReturnColorButton();
-                    AddBtn.IsEnabled = true;
-                    AddBtn.Visibility = Visibility.Visible;
-                    RolesCb.Visibility = Visibility.Collapsed;
-                    ClearAllFields();
-                    changeTrigegr = 0;
+                    try
+                    {
+                        Agents AgentDg = RealtorsDg.SelectedItem as Agents;
+                        var edit = AppData.DB.Agents.Where(p => p.Id == AgentDg.Id).FirstOrDefault();
+                        edit.LastName = LastNameTb.Text;
+                        edit.FirstName = FirstNameTb.Text;
+                        edit.MiddleName = MiddleNameTb.Text;
+                        edit.Phone = (long)Convert.ToDouble(PhoneTb.Text);
+                        edit.Share = (int)ShareSl.Value;
+                        edit.IdRole = RolesCb.SelectedIndex + 1;
+                        AppData.DB.SaveChanges();
+                        MessageBox.Show("Изменения были внесены");
+                        RealtorsDg.ItemsSource = null;
+                        GetData(null);
+                        ReturnColorButton();
+                        AddBtn.IsEnabled = true;
+                        AddBtn.Visibility = Visibility.Visible;
+                        RolesCb.Visibility = Visibility.Collapsed;
+                        ClearAllFields();
+                        changeTrigegr = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -268,18 +282,6 @@ namespace RealEstateAgency
             PhoneTb.Text = string.Empty;
             ShareTb.Text = "0";
         } 
-
-        private string NormalFormatPhoneNumber(string phone)
-        {
-            phone = $"+{phone[0]}({phone[1]}{phone[2]}{phone[3]}){phone[4]}{phone[5]}{phone[6]}-{phone[7]}{phone[8]}-{phone[9]}{phone[10]}";
-            return phone;
-        }
-
-        private string SimpleFormatPhoneNumber(string phone)
-        {
-            phone = $"{phone[1]}{phone[3]}{phone[4]}{phone[5]}{phone[7]}{phone[8]}{phone[9]}{phone[11]}{phone[12]}{phone[14]}{phone[15]}";
-            return phone;
-        }
 
         private void OnlyText_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {

@@ -281,7 +281,7 @@ namespace RealEstateAgency
             {
                 excelWorksheet.Cells["A" + i].Value = AppData.DB.Agents.First(c => c.Id == i - 1).FullName;
                 excelWorksheet.Cells["B" + i].Value = AppData.DB.Agents.First(c => c.Id == i - 1).Share;
-                excelWorksheet.Cells["C" + i].Value = AppData.DB.Agents.First(c => c.Id == i - 1).Phone;
+                excelWorksheet.Cells["C" + i].Value = AppData.DB.Agents.First(c => c.Id == i - 1).NormalFormatPhoneNumber;
             }
             excelWorksheet.Cells["A1:C1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             excelWorksheet.Cells["A1:C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -305,7 +305,7 @@ namespace RealEstateAgency
             for (int i = 2; i <= AppData.DB.Clients.Count() + 1; i++)
             {
                 excelWorksheet.Cells["A" + i].Value = AppData.DB.Clients.First(c => c.Id == i - 1).FullName;
-                excelWorksheet.Cells["B" + i].Value = AppData.DB.Clients.First(c => c.Id == i - 1).Phone;
+                excelWorksheet.Cells["B" + i].Value = AppData.DB.Clients.First(c => c.Id == i - 1).NormalFormatPhoneNumber;
                 excelWorksheet.Cells["C" + i].Value = AppData.DB.Clients.First(c => c.Id == i - 1).Email;
             }
             excelWorksheet.Cells["A1:C1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;

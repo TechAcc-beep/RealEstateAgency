@@ -39,7 +39,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Телефон" Width="105" Binding="{Binding Phone}"/>
+                    <DataGridTextColumn Header="Телефон" Width="105" Binding="{Binding NormalFormatPhoneNumber}"/>
                     <DataGridTextColumn Header="Электронная почта" Width="191" Binding="{Binding Email}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>

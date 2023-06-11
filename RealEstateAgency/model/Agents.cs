@@ -26,7 +26,7 @@ namespace RealEstateAgency.model
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public int Share { get; set; }
-        public string Phone { get; set; }
+        public long Phone { get; set; }
         public string Password { get; set; }
         public int IdRole { get; set; }
     

@@ -39,7 +39,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Телефон" Width="auto" Binding="{Binding Phone}"/>
+                    <DataGridTextColumn Header="Телефон" Width="auto" Binding="{Binding NormalFormatPhoneNumber}"/>
                     <DataGridTextColumn Header="Доля" Width="auto" Binding="{Binding Share}"/>
                 </DataGrid.Columns>
             </DataGrid>

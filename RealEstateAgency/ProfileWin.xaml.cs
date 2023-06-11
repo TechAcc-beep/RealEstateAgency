@@ -49,7 +49,7 @@ namespace RealEstateAgency
             var data = AppData.DB.Orders.ToList();
             var data1 = AppData.DB.Contracts.Local.ToList();
             UserFullNameTb.Text = AppData.DB.Agents.First(c => c.Id == combobox).FullName;
-            PhoneTb.Text = AppData.DB.Agents.First(c => c.Id == combobox).Phone;
+            PhoneTb.Text = AppData.DB.Agents.First(c => c.Id == combobox).Phone.ToString();
             ShareTb.Text = AppData.DB.Agents.First(c => c.Id == combobox).Share.ToString();
             UserPasswordTb.Text = AppData.DB.Agents.First(c => c.Id == combobox).Password;
             UserPasswordPb.Password = AppData.DB.Agents.First(c => c.Id == combobox).Password;

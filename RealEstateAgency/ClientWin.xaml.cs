@@ -102,21 +102,42 @@ namespace RealEstateAgency
             {
                 MessageBox.Show($"Заполните телефон или почту!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+            else if (PhoneTb.Text != "" && PhoneTb.Text.Length != 11)
+            {
+                MessageBox.Show($"Номер телефона не заполнен! \n\n*Должен содержать 11 цифр", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                PhoneTb.BorderBrush = Brushes.Red;
+            }
             else
             {
                 try
                 {
                     int maxId = AppData.DB.Clients.Count() + 1;
-                    Clients add = new Clients
+                    if (PhoneTb.Text.Length == 0)
                     {
-                        Id = maxId,
-                        FirstName = FirstNameTb.Text,
-                        MiddleName = MiddleNameTb.Text,
-                        LastName = LastNameTb.Text,
-                        Phone = (long)Convert.ToDouble(PhoneTb.Text),
-                        Email = EmailTb.Text
-                    };
-                    AppData.DB.Clients.Add(add);
+                        Clients add = new Clients
+                        {
+                            Id = maxId,
+                            FirstName = FirstNameTb.Text,
+                            MiddleName = MiddleNameTb.Text,
+                            LastName = LastNameTb.Text,
+                            Phone = null,
+                            Email = EmailTb.Text
+                        };
+                        AppData.DB.Clients.Add(add);
+                    }
+                    else if (PhoneTb.Text.Length == 11)
+                    {
+                        Clients add = new Clients
+                        {
+                            Id = maxId,
+                            FirstName = FirstNameTb.Text,
+                            MiddleName = MiddleNameTb.Text,
+                            LastName = LastNameTb.Text,
+                            Phone = (long)Convert.ToDouble(PhoneTb.Text),
+                            Email = EmailTb.Text
+                        };
+                        AppData.DB.Clients.Add(add);
+                    }
                     AppData.DB.SaveChanges();
                     MessageBox.Show("Запись добавлена");
                     ClientsDg.ItemsSource = null;
@@ -169,6 +190,11 @@ namespace RealEstateAgency
                 {
                     MessageBox.Show($"Заполните телефон или почту!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+                else if (PhoneTb.Text != "" && PhoneTb.Text.Length != 11)
+                {
+                    MessageBox.Show($"Номер телефона не заполнен! \n\n*Должен содержать 11 цифр", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    PhoneTb.BorderBrush = Brushes.Red;
+                }
                 else
                 {
                     try
@@ -178,7 +204,14 @@ namespace RealEstateAgency
                         edit.LastName = LastNameTb.Text;
                         edit.FirstName = FirstNameTb.Text;
                         edit.MiddleName = MiddleNameTb.Text;
-                        edit.Phone = (long)Convert.ToDouble(PhoneTb.Text);
+                        if (PhoneTb.Text.Length == 0)
+                        {
+                            edit.Phone = null;
+                        }
+                        else if (PhoneTb.Text.Length == 11)
+                        {
+                            edit.Phone = (long)Convert.ToDouble(PhoneTb.Text);
+                        }
                         edit.Email = EmailTb.Text;
                         AppData.DB.SaveChanges();
                         MessageBox.Show("Изменения были внесены");
